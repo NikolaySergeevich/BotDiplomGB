@@ -1,0 +1,22 @@
+DEBUG    [2023-10-21 14:53:31,520] Using proactor: IocpProactor
+DEBUG    [2023-10-21 14:53:31,523] Make request: "getMe" with data: "{}" and files "None"
+DEBUG    [2023-10-21 14:53:32,027] Response for getMe: [200] "'{"ok":true,"result":{"id":5939481567,"is_bot":true,"first_name":"\\u041c\\u043e\\u0439 \\u0431\\u043e\\u0442 4","username":"PavlGBTest4bot","can_join_groups":true,"can_read_all_group_messages":false,"supports_inline_queries":false}}'"
+INFO     [2023-10-21 14:53:32,028] Bot: Мой бот 4 [@PavlGBTest4bot]
+DEBUG    [2023-10-21 14:53:32,028] Make request: "getWebhookInfo" with data: "{}" and files "None"
+DEBUG    [2023-10-21 14:53:32,113] Response for getWebhookInfo: [200] "'{"ok":true,"result":{"url":"","has_custom_certificate":false,"pending_update_count":0}}'"
+DEBUG    [2023-10-21 14:53:32,115] Make request: "deleteWebhook" with data: "{'drop_pending_updates': True}" and files "None"
+DEBUG    [2023-10-21 14:53:32,186] Response for deleteWebhook: [200] "'{"ok":true,"result":true,"description":"Webhook is already deleted"}'"
+WARNING  [2023-10-21 14:53:32,186] Updates were skipped successfully.
+INFO     [2023-10-21 14:53:32,186] Start polling.
+DEBUG    [2023-10-21 14:53:32,187] Make request: "getWebhookInfo" with data: "{}" and files "None"
+DEBUG    [2023-10-21 14:53:32,807] Response for getWebhookInfo: [200] "'{"ok":true,"result":{"url":"","has_custom_certificate":false,"pending_update_count":0}}'"
+DEBUG    [2023-10-21 14:53:32,807] Make request: "getUpdates" with data: "{'timeout': 20}" and files "None"
+DEBUG    [2023-10-21 14:53:52,949] Response for getUpdates: [200] "'{"ok":true,"result":[]}'"
+DEBUG    [2023-10-21 14:53:53,102] Make request: "getUpdates" with data: "{'timeout': 20}" and files "None"
+DEBUG    [2023-10-21 14:54:12,875] Response for getUpdates: [200] "'{"ok":true,"result":[{"update_id":125568914,\n"message":{"message_id":2640,"from":{"id":843471050,"is_bot":false,"first_name":"\\u041a\\u043e\\u043b\\u044f","username":"NikGich","language_code":"ru"},"chat":{"id":843471050,"first_name":"\\u041a\\u043e\\u043b\\u044f","username":"NikGich","type":"private"},"date":1697889252,"text":"\\u044b\\u044b\\u0432\\u0441"}}]}'"
+DEBUG    [2023-10-21 14:54:12,876] Received 1 updates.
+DEBUG    [2023-10-21 14:54:12,876] Make request: "sendMessage" with data: "{'chat_id': 843471050, 'text': 'ыывс'}" and files "None"
+DEBUG    [2023-10-21 14:54:12,980] Make request: "getUpdates" with data: "{'offset': 125568915, 'timeout': 20}" and files "None"
+DEBUG    [2023-10-21 14:54:12,993] Response for sendMessage: [200] "'{"ok":true,"result":{"message_id":2641,"from":{"id":5939481567,"is_bot":true,"first_name":"\\u041c\\u043e\\u0439 \\u0431\\u043e\\u0442 4","username":"PavlGBTest4bot"},"chat":{"id":843471050,"first_name":"\\u041a\\u043e\\u043b\\u044f","username":"NikGich","type":"private"},"date":1697889252,"text":"\\u044b\\u044b\\u0432\\u0441"}}'"
+DEBUG    [2023-10-21 14:54:33,296] Response for getUpdates: [200] "'{"ok":true,"result":[]}'"
+DEBUG    [2023-10-21 14:54:33,401] Make request: "getUpdates" with data: "{'offset': 125568915, 'timeout': 20}" and files "None"
