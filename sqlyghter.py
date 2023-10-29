@@ -16,3 +16,9 @@ class Sqloghter:
             cursorclass=pymysql.cursors.DictCursor
         )
         self.cursor = self.connection.cursor()
+    
+    def check_exists_user(self, user_id):
+        self.cursor.execute("CALL check_exists_user ('{0}');".format(user_id))
+        list = self.cursor.fetchall()
+        item = list[0]['item']
+        return item
