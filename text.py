@@ -4,6 +4,12 @@ def get_list_whis_title_on_english():
         'stress_resistance', 'time_control', 'working_with_a_large_amount_of_information']
     return text
 
+def get_list_whis_title_on_russian():
+    text = ['Экстраверт', 'Интроверт', 'Способность\nк монотонной работе', 'Наставничество', 'Аналитические навыки', 'Эмпатия', 'Любопытство', 
+         'Ораторское\nискусство', 'Организаторские\nспособности', 'Критическое мышление', 'Многозадачность', 'Креативность', 'Стрессоустойчивость',
+        'Контроль времени', 'Работа с большим\nобъёмом информации']
+    return text
+
 def get_way_of_img(user_id):
     return 'D:/Учёба в GB/Диплом/result_img/' + str(user_id) +'_result_test.png'
 def get_way_of_img_compare(user_id, specific):
