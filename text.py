@@ -18,7 +18,7 @@ def get_way_of_finish_img(user_id):
     return 'D:/Учёба в GB/Диплом/result_img/' + str(user_id) +'_finish.png'
 
 name_specific = ["developer", "tester", "analist", "project", "prodact"]
-name_compsre_specific = ["sum_bals_compare_with_developer", "sum_bals_compare_with_tester", "sum_bals_compare_with_analist", "sum_bals_compare_with_project", "sum_bals_compare_with_prodact"]
+name_compare_specific = ["sum_bals_compare_with_developer", "sum_bals_compare_with_tester", "sum_bals_compare_with_analist", "sum_bals_compare_with_project", "sum_bals_compare_with_prodact"]
 name_specific_rus = ["Программист", "Тестировщик", "Аналитик", "Проджект-\nменеджер", "Продакт-\nменеджер", " "]
 defolt_resulr_passing_grade = {"Программист":"20", "Тестировщик":"15", "Аналитик":"20", "Проджект-\nменеджер":"25", "Продакт-\nменеджер":"25"}
 
