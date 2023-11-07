@@ -132,3 +132,20 @@ def create_5_pl_compare(us_id):
         
         way = t.get_way_of_img_compare(us_id, name)
         plt.savefig(way)
+
+def img_with_resalt(us_id, user_name):
+    fig, axs = plt.subplots(2, 3, sharex=True, sharey=True, layout="constrained", figsize=(8, 4), facecolor='#f9f9ff')
+    for ax in axs.flat:
+        ax.set_axis_off()
+    for ax, name, colo, name_compare in zip(axs.flat, t.name_specific_rus, t.color_for_finish_img, t.name_compsre_specific):
+        ax.text(0.25, 0.75, name, size = 13, family='sans-serif', weight='semibold',  horizontalalignment='left')
+        ax.text(0.3, 0.45, "      ", size=25, bbox=dict(boxstyle="round", ec=colo, fc='#f9f9ff'))
+        ax.text(0.6, 0.355, "Проходной\nбал", size=8, weight='roman', color = colo)
+        ax.text(0.35, 0.43, db.giv_volue_compare(name_compare, us_id), size=30, weight='roman')
+        ax.text(0.6, 0.49, t.defolt_resulr_passing_grade[name], size=28, weight='roman', color = colo)
+    
+    fig.suptitle('Твой результат, ' + user_name, verticalalignment='top', weight='semibold')
+    way = t.get_way_of_finish_img(us_id)
+    plt.savefig(way)
+    db.update_link_finish_img(us_id)
+    db.commit()
