@@ -584,7 +584,14 @@ async def start(message: types.Message):
         text = "Нечего сравнивать. Сразу пройдите тест, а затем смотрите графики срвнения."
         await bot.send_message(message.from_user.id, text)   
 
-
+@dp.message_handler(commands=['get_general_compare'])
+async def start(message: types.Message):
+    try:
+        with open(t.get_way_of_finish_img(message.from_user.id), 'rb') as photo:
+            await bot.send_photo(chat_id=message.from_user.id, photo = photo)
+    except FileNotFoundError:
+        text = "Итоговая иллюстрация не создана. Пройдите тест и вы сможете посмотреть на результаты!"
+        await bot.send_message(message.from_user.id, text)
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
