@@ -4,6 +4,7 @@ import configparser
 import text as t
 from sqlyghter import Sqloghter
 import button as bt
+import img
 
 db = Sqloghter()
 
@@ -516,6 +517,54 @@ async def answer_for_time_control(call: types.CallbackQuery):
    
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
+
+@dp.callback_query_handler(text = '015')
+@dp.callback_query_handler(text = '115')
+@dp.callback_query_handler(text = '215')
+@dp.callback_query_handler(text = '315')
+@dp.callback_query_handler(text = '415')
+@dp.callback_query_handler(text = '515')
+async def answer_for_working_with_a_large_amount_of_information(call: types.CallbackQuery):
+    answer = call.data
+    degry = 0
+    if answer == '015':
+        degry = 0
+    elif answer == '115':
+        degry = 1
+    elif answer == '215':
+        degry = 2
+    elif answer == '315':
+        degry = 3
+    elif answer == '415':
+        degry = 4
+    elif answer == '515':
+        degry = 5 
+    else: degry = 0
+    column_name = 'working_with_a_large_amount_of_information'
+    db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
+    db.update_indicate_user(call.from_user.id, 1)
+    db.update_time_content_test(call.from_user.id)
+    db.update_link_data_test(call.from_user.id)
+    db.commit()
+    text = '🔴<b>Ваш ответ принят!</b>🔴\n\
+            Поздравляю. Вы прошли тест. Выберете в меню подходящиую команду для отображения пройденного теста.'
+    await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
+    await bot.send_message(call.from_user.id, text, parse_mode='HTML')
+    img.plt_result(call.from_user.id)
+    img.create_5_pl_compare(call.from_user.id)
+    img.img_with_resalt(call.from_user.id, call.from_user.full_name)
+    for name in t.name_specific:
+        db.update_link_copmare(call.from_user.id, name)
+    db.commit()
+
+@dp.message_handler(commands=['get_my_graf'])
+async def start(message: types.Message):
+    try:
+        with open(t.get_way_of_img(message.from_user.id), 'rb') as photo:
+            await bot.send_photo(chat_id=message.from_user.id, photo = photo)
+    except FileNotFoundError:
+        text = "❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️\nВаш портрет отсутсвует в мозгах бота. Скорее всего вы просто не прошли тест."
+        await bot.send_message(message.from_user.id, text)
 
 @dp.message_handler(commands=['get_graf_analist'])
 async def start(message: types.Message):

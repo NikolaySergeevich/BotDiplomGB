@@ -60,9 +60,20 @@ class Sqloghter:
     #записываем ссылку финишной с результатми сравнения картинки в базу 
         return self.cursor.execute("CALL update_link_finish_img ('{0}', '{1}')".format(user_id, t.get_way_of_finish_img(user_id)))
     
+    def update_time_content_test(self, user_id):
+        return self.cursor.execute("CALL update_time_content_test ('{0}')".format(user_id))
     
+    def update_link_data_test(self, user_id):
+        #записываем ссылку картинки в базу 
+        return self.cursor.execute("CALL update_link_data_test ('{0}', '{1}')".format(user_id, t.get_way_of_img(user_id)))
     
+    def update_link_copmare(self, user_id, name_specific):
+        #использовние 5 разных процедур. Каждая для отдельного графика сравнения
+        procedure_name = 'update_link_data_compare_' + name_specific
+        return self.cursor.execute("CALL {0} ('{1}', '{2}');".format(procedure_name, user_id, t.get_way_of_img_compare(user_id, name_specific)))
     
+
+
     
 
 
