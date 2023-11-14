@@ -8,7 +8,7 @@ import img
 
 db = Sqloghter()
 
-logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s', level = logging.DEBUG, filename = u'D:/Учёба в GB/Диплом/mylog.log')
+logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s', level = logging.INFO, filename = u'D:/Учёба в GB/Диплом/mylog.log')
 
 config = configparser.ConfigParser()  
 config.read("D:/Учёба в GB/Диплом/configs.ini")  
@@ -16,28 +16,22 @@ config.read("D:/Учёба в GB/Диплом/configs.ini")
 bot = Bot(token = config["Bot"]["token"])
 dp = Dispatcher(bot)
 
-# @dp.message_handler()
-# async def start(message: types.Message):
-#     await bot.send_message(message.from_user.id, message.text)
 
-@dp.message_handler(commands=['start'])#тут приветствие
+@dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     await bot.send_message(message.from_user.id, t.hello_text.format(name=message.from_user.full_name), parse_mode='HTML')
 
 
-@dp.message_handler(commands=['go_test'])#тут добаление пользователя в базу данных и начало прохождения теста
+@dp.message_handler(commands=['go_test'])
 async def start(message: types.Message):
     if(db.check_exists_user(message.from_user.id) == 0):
         db.add_user_in_users(message.from_user.id)
         db.add_user_in_cat(message.from_user.id)
-        #если юзера нет в базе, то добавляем его и следующая строка вносит изменения а бд
-        
         db.commit()
-        # и тут начинаем проходить тест. Создаём кнопки и первый вопрос
         text = t.text_for_question_1
         markup = bt.get_markup_reply_test('01', '11', '21', '31', '41', '51')
         await bot.send_message(message.from_user.id, text, reply_markup=markup, parse_mode='HTML')
-    else:#если пользователь есть в бд уже, то проверяется прошёл ли он тест раньше
+    else:
         if(db.check_passed_the_test(message.from_user.id) == 0):
             textt = "Видимо раньше вы уже начинали проходить тест, но не закончили начатое."
         elif(db.check_passed_the_test(message.from_user.id) == 1):
@@ -58,11 +52,9 @@ async def begining_over_test(call: types.CallbackQuery):
         await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
     elif answer == 'bad':
         text = 'Нет, так нет'
-        # и выдать ему старый результат
         await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
         await bot.send_message(call.from_user.id, text, parse_mode='HTML')
 
-# Приём ответа на 1 вопрос, задача второго
 @dp.callback_query_handler(text = '01')
 @dp.callback_query_handler(text = '11')
 @dp.callback_query_handler(text = '21')
@@ -88,7 +80,6 @@ async def answer_for_extrovert(call: types.CallbackQuery):
     column_name = 'extrovert'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_2
     markup = bt.get_markup_reply_test('02', '12', '22', '32', '42', '52')
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
@@ -119,13 +110,11 @@ async def answer_for_introvert(call: types.CallbackQuery):
     column_name = 'introvert'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_3
     markup = bt.get_markup_reply_test('03', '13', '23', '33', '43', '53')
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
 
-# Приём ответа на 3 вопрос, задача 4 
 @dp.callback_query_handler(text = '03')
 @dp.callback_query_handler(text = '13')
 @dp.callback_query_handler(text = '23')
@@ -151,14 +140,12 @@ async def answer_for_ability_to_work_monotonously(call: types.CallbackQuery):
     column_name = 'ability_to_work_monotonously'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_4
     markup = bt.get_markup_reply_test('04', '14', '24', '34', '44', '54')
     
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
 
-# Приём ответа на 4 вопрос, задача 5 
 @dp.callback_query_handler(text = '04')
 @dp.callback_query_handler(text = '14')
 @dp.callback_query_handler(text = '24')
@@ -184,14 +171,12 @@ async def answer_for_mentoring(call: types.CallbackQuery):
     column_name = 'mentoring'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_5
     markup = bt.get_markup_reply_test('05', '15', '25', '35', '45', '55')
    
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
-
-# Приём ответа на 5 вопрос, задача 6 
+ 
 @dp.callback_query_handler(text = '05')
 @dp.callback_query_handler(text = '15')
 @dp.callback_query_handler(text = '25')
@@ -217,13 +202,11 @@ async def answer_for_analytical_skills(call: types.CallbackQuery):
     column_name = 'analytical_skills'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_6
     markup = bt.get_markup_reply_test('06', '16', '26', '36', '46', '56')
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
 
-# Приём ответа на 6 вопрос, задача 7 
 @dp.callback_query_handler(text = '06')
 @dp.callback_query_handler(text = '16')
 @dp.callback_query_handler(text = '26')
@@ -249,13 +232,11 @@ async def answer_for_empathy(call: types.CallbackQuery):
     column_name = 'empathy'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_7
     markup = bt.get_markup_reply_test('07', '17', '27', '37', '47', '57')
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
-
-# Приём ответа на 7 вопрос, задача 8 
+ 
 @dp.callback_query_handler(text = '07')
 @dp.callback_query_handler(text = '17')
 @dp.callback_query_handler(text = '27')
@@ -281,13 +262,11 @@ async def answer_for_curiosity(call: types.CallbackQuery):
     column_name = 'curiosity'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_8
     markup = bt.get_markup_reply_test('08', '18', '28', '38', '48', '58')
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
 
-# Приём ответа на 8 вопрос, задача 9 
 @dp.callback_query_handler(text = '08')
 @dp.callback_query_handler(text = '18')
 @dp.callback_query_handler(text = '28')
@@ -313,14 +292,12 @@ async def answer_for_oratory(call: types.CallbackQuery):
     column_name = 'oratory'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_9
     markup = bt.get_markup_reply_test('09', '19', '29', '39', '49', '59')
    
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
 
-# Приём ответа на 9 вопрос, задача 10 
 @dp.callback_query_handler(text = '09')
 @dp.callback_query_handler(text = '19')
 @dp.callback_query_handler(text = '29')
@@ -346,14 +323,12 @@ async def answer_for_organizational_skills(call: types.CallbackQuery):
     column_name = 'organizational_skills'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_10
     markup = bt.get_markup_reply_test('010', '110', '210', '310', '410', '510')
     
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
 
-# Приём ответа на 10 вопрос, задача 11 
 @dp.callback_query_handler(text = '010')
 @dp.callback_query_handler(text = '110')
 @dp.callback_query_handler(text = '210')
@@ -379,14 +354,12 @@ async def answer_for_critical_thinking(call: types.CallbackQuery):
     column_name = 'critical_thinking'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_11
     markup = bt.get_markup_reply_test('011', '111', '211', '311', '411', '511')
     
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
-
-# Приём ответа на 11 вопрос, задача 12 
+ 
 @dp.callback_query_handler(text = '011')
 @dp.callback_query_handler(text = '111')
 @dp.callback_query_handler(text = '211')
@@ -412,14 +385,12 @@ async def answer_for_multitasking(call: types.CallbackQuery):
     column_name = 'multitasking'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_12
     markup = bt.get_markup_reply_test('012', '112', '212', '312', '412', '512')
     
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
 
-# Приём ответа на 12 вопрос, задача 13 
 @dp.callback_query_handler(text = '012')
 @dp.callback_query_handler(text = '112')
 @dp.callback_query_handler(text = '212')
@@ -445,14 +416,12 @@ async def answer_for_creativity(call: types.CallbackQuery):
     column_name = 'creativity'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_13
     markup = bt.get_markup_reply_test('013', '113', '213', '313', '413', '513')
    
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
 
-# Приём ответа на 13 вопрос, задача 14 
 @dp.callback_query_handler(text = '013')
 @dp.callback_query_handler(text = '113')
 @dp.callback_query_handler(text = '213')
@@ -478,14 +447,12 @@ async def answer_for_stress_resistance(call: types.CallbackQuery):
     column_name = 'stress_resistance'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_14
     markup = bt.get_markup_reply_test('014', '114', '214', '314', '414', '514')
     
     await bot.edit_message_reply_markup(chat_id=call.from_user.id, message_id=call.message.message_id, reply_markup=None)
     await bot.send_message(call.from_user.id, text, reply_markup=markup, parse_mode='HTML')
-
-# Приём ответа на 14 вопрос, задача 15 
+ 
 @dp.callback_query_handler(text = '014')
 @dp.callback_query_handler(text = '114')
 @dp.callback_query_handler(text = '214')
@@ -511,7 +478,6 @@ async def answer_for_time_control(call: types.CallbackQuery):
     column_name = 'time_control'
     db.update_degry_whis_dinamic_reqest(call.from_user.id, column_name, degry)
     db.commit()
-    # метод, который вносит данные в таблицу теста
     text = t.text_for_question_15
     markup = bt.get_markup_reply_test('015', '115', '215', '315', '415', '515')
    

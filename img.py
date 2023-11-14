@@ -80,7 +80,6 @@ def create_5_pl_compare(us_id):
         ax.set_rlim(0)
         ax.yaxis.set_major_formatter(NullFormatter())
 
-    # --------------------Заполнение окружности по уровням 
         ycoord = 0.45
         for num in 1,2,3,4,5:
             xcoord = 0.20943951
@@ -93,7 +92,6 @@ def create_5_pl_compare(us_id):
                 i += 1
             ycoord +=1
         
-    #------------заполнение качеств по окружности
         ycoord = 0.20943951
         for lab in t.get_list_whis_title_on_russian():
             xcoord = 6.3
@@ -133,7 +131,6 @@ def create_5_pl_compare(us_id):
         way = t.get_way_of_img_compare(us_id, name)
         plt.savefig(way)
 
-# create_5_pl_compare(843471050)
 
 def img_with_resalt(us_id, user_name):
     fig, axs = plt.subplots(2, 3, sharex=True, sharey=True, layout="constrained", figsize=(8, 4), facecolor='#f9f9ff')
@@ -151,5 +148,3 @@ def img_with_resalt(us_id, user_name):
     plt.savefig(way)
     db.update_link_finish_img(us_id)
     db.commit()
-
-img_with_resalt(843471050, 'sfsdfsdf')
