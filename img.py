@@ -8,6 +8,11 @@ from sqlyghter import Sqloghter
 db = Sqloghter()
 
 def plt_result(us_id):
+    """Создаёт портрет пользователя 
+
+    Args:
+        us_id (_type_): ID пользователя 
+    """
     N = 15
     df = wor.get_data_frame(us_id)
     r = np.array(wor.get_data_frame_only_value(df))
@@ -62,6 +67,11 @@ def plt_result(us_id):
     plt.savefig(way)
 
 def create_5_pl_compare(us_id):
+    """Создаёт пять графиков сравнения для конкретного пользователя
+
+    Args:
+        us_id (_type_): ID пользователя 
+    """
     N = 15
     df = wor.get_data_frame(us_id)
     r = np.array(wor.get_data_frame_only_value(df))
@@ -133,6 +143,12 @@ def create_5_pl_compare(us_id):
 
 
 def img_with_resalt(us_id, user_name):
+    """Создаёт итоговую иллюстрацию теста
+
+    Args:
+        us_id (_type_): ID пользователя
+        user_name (_type_): Имя пользоваетля в Телеграмм
+    """
     fig, axs = plt.subplots(2, 3, sharex=True, sharey=True, layout="constrained", figsize=(8, 4), facecolor='#f9f9ff')
     for ax in axs.flat:
         ax.set_axis_off()

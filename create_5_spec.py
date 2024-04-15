@@ -5,6 +5,11 @@ from matplotlib.ticker import NullFormatter
 import text as t
 
 def plt_result(us_id):
+    """Метод создаёт 5 портретов специалистов
+
+    Args:
+        us_id (_type_): _description_
+    """
     N = 15
     df = wor.get_data_frame(us_id)
     r = np.array(wor.get_data_frame_only_value(df))

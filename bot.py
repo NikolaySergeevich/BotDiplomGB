@@ -8,10 +8,10 @@ import img
 
 db = Sqloghter()
 
-logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s', level = logging.INFO, filename = u'D:/Учёба в GB/Диплом/mylog.log')
+logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s', level = logging.INFO, filename = u'Dyour path to/mylog.log')
 
 config = configparser.ConfigParser()  
-config.read("D:/Учёба в GB/Диплом/configs.ini")  
+config.read("your path to/configs.ini")  
 
 bot = Bot(token = config["Bot"]["token"])
 dp = Dispatcher(bot)
